@@ -1,0 +1,113 @@
+\documentclass[openany]{book}
+
+\tracingpages1
+\tracingoutput1
+
+% ch:	     chapter
+% sec:	   section
+% subsec:	 subsection
+% fig:	   figure
+% tab:	   table
+% eq:	     equation
+% lst:	   code listing
+% itm:	   enumerated list item
+% alg:	   algorithm
+% app:	   appendix subsection
+
+%  _____________________
+% |          |          |
+% |          |          |
+% |          |          |
+% |    even  |   odd    |
+% |          |          |
+% |          |          |
+% |__________|__________|
+
+% \usepackage{a4wide} % Use this for printing bits off
+\usepackage[inner=45mm,outer=25mm]{geometry} % Use this for binding
+
+\input{macros}
+
+\begin{document}
+
+\frontmatter
+
+% \renewcommand*\contentsname{%
+% \hrule%
+%   \vspace{10pt}%
+%   {\centering\huge\textbf{Contents}}%
+%   \vspace{10pt}%
+%   \hrule%
+%   \vspace{-1cm}%
+% }
+
+
+\pagestyle{empty}
+\input{chapters/00-title}
+\pagenumbering{roman}
+
+\titleformat{name=\chapter,numberless} % command
+[display] % shape
+{\bfseries\large} % format
+{\vspace{-3cm}\centering\Vhrulefill} % label
+{0ex} % sep
+{\centering\Large} % before-code
+[%
+  \vspace{-0.5ex}%
+  \rule{\textwidth}{0.3pt}%
+  \vspace{-1.5cm}%
+] % after-code
+
+\input{chapters/00-abstract}
+\input{chapters/00-acknowledgements}
+\input{chapters/00-publications}
+
+\chapter{Contents}%
+\todo[inline]{DELETE THIS: The heading will be fine once you have all your sections in and it fills the page.}
+\renewcommand*\contentsname{}
+\tableofcontents
+
+\mainmatter
+\pagestyle{main}
+
+\input{chapters/01-intro}
+\input{chapters/02-background}
+\input{chapters/03-contrib1}
+\chapter{Contribution 2} % Remove this
+\chapter{Contribution 3} % Remove this
+\addtocontents{toc}{\protect\pagebreak}
+\input{chapters/09-conclusion}
+
+\clearpage
+\pagestyle{plain}
+
+\titleformat{name=\chapter,numberless} % command
+[display] % shape
+{\bfseries\large} % format
+{\vspace{-2cm}\centering\Vhrulefill} % label
+{0ex} % sep
+{\vspace{1ex}\centering\Large} % before-code
+[%
+  \vspace{-0.5ex}%
+  \rule{\textwidth}{0.3pt}%
+  \vspace{-1.5cm}%
+] % after-code
+
+\let\OLDthebibliography\thebibliography
+\renewcommand\thebibliography[1]{
+  \OLDthebibliography{#1}
+  \setlength{\parskip}{0pt}
+  \setlength{\itemsep}{2pt plus 0.3ex minus 2pt}
+}
+
+\titlespacing*{\chapter}{0pt}{0pt}{55pt}
+\bibliographystyle{plain}
+\bibliography{bibliography.bib}
+
+\clearpage
+\begin{appendices}
+  \titlespacing*{\chapter}{0pt}{50pt}{40pt}
+  \input{chapters/appendix}
+\end{appendices}
+
+\end{document}

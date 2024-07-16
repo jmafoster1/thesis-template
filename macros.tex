@@ -1,0 +1,265 @@
+\usepackage{url} % make URLs actually work
+\usepackage[hidelinks]{hyperref}
+\usepackage{courier} % use courier font for texttt env
+\usepackage{graphicx, subcaption} % pictures
+\usepackage{cutwin} % Text wrapping in theorem environments
+\usepackage{ifthen}
+
+\usepackage{fmtcount} % String of number
+
+\usepackage{amsmath, amssymb, amsthm, amsfonts, stmaryrd, mathtools, dsfont}
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{many}
+\usepackage{varwidth}
+\usepackage[margin=1cm]{caption} % Have a nice 1cm margin round captions so they don't go right to the edge
+
+\usepackage{nicefrac} % Nice fractions in text
+
+\usepackage{booktabs}
+
+\usepackage{textcomp} % Prevents "Not defining \perthousand" warning
+\usepackage{gensymb}
+
+\usepackage{venndiagram}
+
+\usepackage{bibentry}
+\nobibliography*
+
+\usepackage[titletoc]{appendix}
+
+\newcommand\mathplus{+}
+
+% Phantom chapters
+\newcommand{\phantomchapter}[1]{%
+  \chapter*{#1}%
+  \phantomsection%
+  \addcontentsline{toc}{chapter}{#1}%
+  \vspace{1em}
+}
+
+% repeat caption
+\newcommand{\repeatcaption}[1]{%
+  \renewcommand{\thefigure}{\ref{#1}}%
+  \captionsetup{list=no}%
+  \caption{\nameref{#1}}%
+  \addtocounter{figure}{-1}%
+}
+
+\newcommand{\repeatchapter}[1]{%
+  \autoref{#1}: \nameref{#1}%
+}
+
+\usepackage{etoolbox}
+% Patch \footnotemark to provide a label that can be referenced.
+\patchcmd{\footnotemark}{\stepcounter{footnote}}{\refstepcounter{footnote}}{}{}
+
+% ================================= blank page =================================
+\usepackage{afterpage}
+\newcommand\blankpage{%
+  \null
+  \thispagestyle{empty}%
+  \newpage}
+
+% ================================= todonotes ==================================
+% Make todo notes capable of going in floats
+\setlength{\marginparwidth }{2cm}
+\usepackage{todonotes}
+\usepackage{marginnote}
+\renewcommand{\marginpar}{\marginnote}
+
+% ============================= Bibliography stuff =============================
+\usepackage[nottoc,notlof,notlot]{tocbibind}
+\renewcommand\bibname{References}
+
+% ======================== Chapter and section headings ========================
+\usepackage{titlesec}
+\def\Vhrulefill{\leavevmode\leaders\hrule height 0.7ex depth \dimexpr0.4pt-0.7ex\hfill\kern0pt}
+
+\titleformat{\chapter} % command
+[display] % shape
+{\bfseries\large} % format
+{\vspace{-3cm}\centering\Vhrulefill~\chaptertitlename \ \thechapter~\Vhrulefill} % label
+{0ex} % sep
+{\vspace{1ex}\centering\Large} % before-code
+[
+  \vspace{-0.5ex}%
+  \rule{\textwidth}{0.3pt}
+  \vspace{-1.5cm}
+] % after-code
+
+% Keep section numberings
+% \usepackage{etoolbox}
+% \makeatletter
+% \patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+% \patchcmd{\ttlh@hang}{\noindent}{}{}{}
+% \makeatother
+
+% Contributions
+\usepackage{chngcntr}
+
+\titleclass{\contribution}{straight}[\section]
+\newcounter{contribution}
+\titleformat{\contribution}[runin]{\normalfont\bfseries}{}{0pt}{C\thecontribution: }
+\titlespacing*{\contribution}{0pt}{0pt}{3pt}
+
+\makeatletter
+\newcommand{\l@contribution}{\@dottedtocline{5}{1.5em}{2.3em}}
+\renewcommand{\l@contribution}{\@dottedtocline{5}{1.5em}{2.3em}}
+\providecommand*{\toclevel@contribution}{5}%     %% <---
+\makeatother
+
+\usepackage[linewidth=0.5pt]{mdframed}
+
+\setcounter{tocdepth}{1}
+% \newcommand{\contrib}[2]{\refstepcounter{contribution}\paragraph{C\arabic{contribution}: #1 \label{#2}}}
+\newcommand{\repeatcontrib}[1]{%
+  % \vspace{0.5em}\noindent\fbox{\parbox{\columnwidth}{C\ref{#1}: \nameref{#1}}}%
+  \begin{mdframed}
+    C\ref{#1}: \nameref{#1}.
+  \end{mdframed}
+}
+\setcounter{secnumdepth}{3} % default value for 'report' class is "2"
+
+
+% ============================ Contents page stuff =============================
+\usepackage{tocloft}
+\providecommand{\cftchapafterpnum}{\vspace{10pt}}
+\setlength{\cftbeforetoctitleskip}{-3em}
+\setlength{\cftbeforechapskip}{6pt}
+
+
+% ============================ Header and footer ==============================
+\usepackage{emptypage} % Remove header/footer on empty pages
+\makeatletter
+%preamble
+\if@twoside%
+  \usepackage{fancyhdr}
+  \setlength{\headheight}{25pt} % TODO: See if you can remove this
+
+  \fancypagestyle{main}{%
+    \fancyhf{}
+    \fancyhead[LE]{\rightmark}
+    \fancyhead[RO]{\leftmark}
+    \fancyfoot[C]{\thepage}
+  }
+
+  \addtocontents{toc}{\protect\thispagestyle{empty}}
+
+\else%
+  %%% put the stuff for false here (twoside=false)
+  \pagestyle{plain}
+\fi%
+\makeatother
+
+\usepackage{enumitem} % Mess about with itemize, enumerate, description styles
+
+% ================================= algorithms =================================
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithm}
+
+\algrenewcommand{\alglinenumber}[1]{\color{gray}\footnotesize#1:}
+
+% New definitions
+\algnewcommand\algorithmicswitch{\textbf{switch}}
+\algnewcommand\algorithmiccase{\textbf{case}}
+% \algnewcommand\algorithmicdo{\textbf{do}}
+\algnewcommand\Assert[1]{\State \algorithmicassert(#1)}%
+% New "environments"
+\algdef{SE}[SWITCH]{Switch}{EndSwitch}[1]{\algorithmicswitch\ #1\ \algorithmicdo}{\algorithmicend\ \algorithmicswitch}%
+\algdef{SE}[CASE]{Case}{EndCase}[1]{\algorithmiccase\ #1}{\algorithmicend\ \algorithmiccase}%
+\algdef{SE}[DO]{Do}{EndCase}[1]{\algorithmicdo\ #1}{\algorithmicend\ \algorithmicdo}%
+
+\algtext*{EndSwitch}%
+\algtext*{EndCase}%
+\algtext*{DoWhile}%
+
+\makeatletter
+\newcounter{algorithmicH}% New algorithmic-like hyperref counter
+\let\oldalgorithmic\algorithmic
+\renewcommand{\algorithmic}{%
+  \stepcounter{algorithmicH}% Step counter
+  \oldalgorithmic}% Do what was always done with algorithmic environment
+\renewcommand{\theHALG@line}{ALG@line.\thealgorithmicH.\arabic{ALG@line}}
+\providecommand*{\toclevel@algorithm}{1}
+\makeatother
+
+% ================================= theorems ===================================
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+{\theoremstyle{definition} \newtheorem{example}{Example}[section]}
+{\theoremstyle{definition} \newtheorem{definition}{Definition}}
+
+\tcolorboxenvironment{definition}{%
+  enhanced jigsaw,
+  sharp corners,
+  colframe=black,
+  interior hidden,
+  parbox=false,
+  boxrule=0.5pt,
+  left=1mm,
+  right=1mm,
+  top=1mm,
+  bottom=1mm
+}
+
+\tcolorboxenvironment{example}{%
+  blanker,
+  parbox=false,
+  breakable,
+  enlarge top by=0.5em,
+  left=3mm,
+  pad at break=0px,
+  borderline west={0.5mm}{0pt}{black, -}
+}
+
+% ================================= autoref ====================================
+\def\Appendixautorefname{Appendix}
+\def\chapterautorefname{Chapter}
+\def\sectionautorefname{Section}
+\def\subsectionautorefname{Subsection}
+\newcommand{\exampleautorefname}{Example}
+\newcommand{\definitionautorefname}{Definition}
+\newcommand{\algautorefname}{Algorithm}
+\newcommand{\algorithmautorefname}{Algorithm}
+
+\makeatletter
+\patchcmd{\ALG@step}{\addtocounter{ALG@line}{1}}{\refstepcounter{ALG@line}}{}{}
+\newcommand{\ALG@lineautorefname}{Line}
+\makeatother
+
+
+\newlist{questions}{enumerate}{2}
+\setlist[questions]{label=RQ\arabic*, font=\bfseries, ref=\arabic*, wide=0pt, leftmargin=*}
+\newcommand{\RQ}[1]{\hyperref[#1]{RQ\ref*{#1}}}
+
+
+% ================================= listings ===================================
+\usepackage{listings}
+\lstset{%
+  basicstyle=\ttfamily,
+  breaklines=true,
+  numbers=left,
+  xleftmargin=2em,
+  frame=none,
+  framexleftmargin=2ex,
+  stepnumber=1,
+  numberstyle={\color{gray}\ttfamily}
+}
+
+\definecolor{solarised-background}{HTML}{9facad}
+\definecolor{solarised-text}{HTML}{000203}
+
+\newcommand{\commandshell}[1]{%
+  \centering
+  \begin{tikzpicture}[node distance=0pt]
+    \node[shape=rectangle, fill=black] (top) {\parbox{0.9\textwidth}{\hfill\\}};
+    \node[shape=rectangle, fill=black, rounded corners=5, shift={(0, 5pt)}] {\parbox{0.9\textwidth}{\hfill\\}};
+    \node[shape=rectangle, fill=black, above = 1pt of top.south, anchor=north] {\parbox{0.9\textwidth}{\hfill\\}};
+
+    \node[shape=circle, fill=red, shift={(6.3cm, 0)}, inner sep = 3pt] {};
+    \node[shape=circle, fill=orange, shift={(5.8cm, 0)}, inner sep = 3pt] {};
+    \node[shape=circle, fill=green, shift={(5.3cm, 0)}, inner sep = 3pt] {};
+    \node[shape=rectangle, fill=solarised-background, below = 5pt of top.south, anchor=north] {\color{solarised-text}\parbox{0.9\textwidth}{\texttt{#1}}};
+  \end{tikzpicture}
+}
