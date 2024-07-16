@@ -1,6 +1,7 @@
-# Thesis
+# Thesis Template
+Basic layout of my thesis without any of the content of custom macros. You can just put your content in.
 
-Things to check when proof reading:
+## Things to check when proof reading:
 - Captions/bullet points end with a full stop.
 - No dead references (highlight [?])
 - No repeated words
